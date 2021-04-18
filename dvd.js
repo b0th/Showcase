@@ -1,6 +1,6 @@
 let width = 500;
 let height = 500;
-let squares = [];
+let rectangles = [];
 
 // Create rgba function
 
@@ -20,8 +20,8 @@ class Square {
     }
   
     hitWall() {
-        if (this.y <= 0 || this.y >= height) this.velocity.y *= -1;
-        if (this.x <= 0 || this.x >= width) this.velocity.x *= -1;
+        if (this.y <= 0 || this.y + this.h >= height) this.velocity.y *= -1;
+        if (this.x <= 0 || this.x + this.w >= width) this.velocity.x *= -1;
     }
   
     draw() {
@@ -29,28 +29,32 @@ class Square {
     }
 }
 
+randRange = (start, end) => {
+    return Math.floor((Math.random() * 100)) % (end - (start - 1)) + start
+}
+
 init = (n) => {
     for (i=0; i < n; i++) {
-        squares.push(new Square(
-        {x: 10, y: 10}, {x: 8, y: 5},
-        {w: 100, h: 100}, 255));
+        rectangles.push(new Square(
+        {x: 10, y: 10}, {x: randRange(1, 10), y: randRange(1, 10)},
+        {w: randRange(10, 50), h: randRange(10, 50)}, 255));
     }
 }
 
-runSquares = (squareArray) => {
-    for (var square of squareArray) {
-        square.update();
-        square.hitWall();
-        square.draw();
+runSquares = (rectangleArray) => {
+    for (var rectangle of rectangleArray) {
+        rectangle.update();
+        rectangle.hitWall();
+        rectangle.draw();
     }
 }
 
-function setup() {
+setup = () => {
     createCanvas(500, 500);
     init(50);
 }
 
-function draw() {
+draw = () => {
     background(220);
-    runSquares(squares);
+    runSquares(rectangles);
 }
