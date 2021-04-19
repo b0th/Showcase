@@ -10,6 +10,7 @@ class Global {
 let general = new Global();
 
 setup = () => {
+    noCursor()
     general.DVDImage = loadImage("./img/dvd.png");
     createCanvas(general.width, general.height);
     textSize(20);
@@ -31,14 +32,15 @@ class Square{
         this.x += this.velocity.x;
         this.y += this.velocity.y;
     }
-    is_hit() {
-        return ((this.y <= 0 || this.y + this.h >= general.height) ||
-            (this.x <= 0 || this.x + this.w >= general.width));
+    is_hit(x, y) {
+        return ((y <= 0 || y + this.h >= general.height) ||
+            (x <= 0 || x + this.w >= general.width));
     }
     hit(hitted) {
         if (hitted) {
             this.bounceCount++;
             general.totalBounce++;
+            this.color = {r: random(256), g: random(256), b: random(256)}
         }
     }
     hitWall() {
@@ -46,7 +48,7 @@ class Square{
         if (this.x <= 0 || this.x + this.w >= general.width) this.velocity.x *= -1;
     }
     draw() {
-        this.hit(this.is_hit());
+        this.hit(this.is_hit(this.x, this.y));
         image(general.DVDImage, this.x, this.y);
         fill(this.color.r, this.color.g, this.color.b);
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
@@ -54,7 +56,7 @@ class Square{
     connectRectangle(rectangleArray) {
         rectangleArray.forEach(rectangle => {
         if (dist(this.x, this.y, rectangle.x, rectangle.y) < 250) {
-            stroke('rgba(255, 255, 255, 0.25)');
+            stroke("rgba(255, 255, 255, 0.20)");
             line(this.x, this.y, rectangle.x, rectangle.y);
         }
         })
@@ -75,13 +77,16 @@ Cursor = {
     radius: 200,
     drawCircle: () => {
         noStroke();
-        fill('rgba(255,255,255, 0.10)');
+        fill("rgba(255,255,255, 0.10)");
         circle(mouseX, mouseY, Cursor.radius);
     },
     repulsive: (rectangle) => {
         if (dist(rectangle.x, rectangle.y, mouseX, mouseY) < Cursor.radius) {
-            rectangle.x += rectangle.velocity.x * 5;
-            rectangle.y += rectangle.velocity.y * 5;
+            pos = createVector(rectangle.x + rectangle.velocity.x * 5, rectangle.y + rectangle.velocity.y * 5);
+            if (!rectangle.is_hit(pos.x, pos.y)) {
+                rectangle.x = pos.x;
+                rectangle.y = pos.y;
+            }
         }
     }
 }
@@ -96,8 +101,8 @@ Rectangle = {
     runSquares: (rectangleArray) => {
         rectangleArray.forEach(rectangle => {
             rectangle.update();
-            rectangle.hitWall();
             Cursor.repulsive(rectangle);
+            rectangle.hitWall();
             rectangle.connectRectangle(rectangleArray);
             rectangle.draw();
             Rectangle.drawTotalBounce();
