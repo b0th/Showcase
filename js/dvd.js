@@ -1,19 +1,22 @@
-let width = window.innerWidth;
-let height = window.innerHeight;
-let rectangles = [];
-let DVDImage;
-let totalBounce = 0;
-
-preload = () => {
-    DVDImage = loadImage("./img/dvd.png")
+class Global {
+    constructor() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.rectangles = [];
+        this.totalBounce = 0;
+    }
 }
+
+let general = new Global();
+
 setup = () => {
-    createCanvas(width, height);
+    general.DVDImage = loadImage("./img/dvd.png");
+    createCanvas(general.width, general.height);
     textSize(20);
     init(50);
 }
 
-class Square {
+class Square{
     constructor(Location, Velocity, Dim) {
         this.x = Location.x;
         this.y = Location.y;
@@ -21,11 +24,7 @@ class Square {
         this.h = Dim.h
         this.velocity = Velocity;
         this.bounceCount = 0;
-        this.color = {
-            r: random(256), 
-            g: random(256), 
-            b: random(256)
-        }
+        this.color = {r: random(256), g: random(256), b: random(256)}
     }
 
     update() {
@@ -33,22 +32,22 @@ class Square {
         this.y += this.velocity.y;
     }
     is_hit() {
-        return ((this.y <= 0 || this.y + this.h >= height) ||
-            (this.x <= 0 || this.x + this.w >= width));
+        return ((this.y <= 0 || this.y + this.h >= general.height) ||
+            (this.x <= 0 || this.x + this.w >= general.width));
     }
     hit(hitted) {
         if (hitted) {
             this.bounceCount++;
-            totalBounce++;
+            general.totalBounce++;
         }
     }
     hitWall() {
-        if (this.y <= 0 || this.y + this.h >= height) this.velocity.y *= -1;
-        if (this.x <= 0 || this.x + this.w >= width) this.velocity.x *= -1;
+        if (this.y <= 0 || this.y + this.h >= general.height) this.velocity.y *= -1;
+        if (this.x <= 0 || this.x + this.w >= general.width) this.velocity.x *= -1;
     }
     draw() {
         this.hit(this.is_hit());
-        image(DVDImage, this.x, this.y);
+        image(general.DVDImage, this.x, this.y);
         fill(this.color.r, this.color.g, this.color.b);
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
     }
@@ -64,28 +63,50 @@ class Square {
 
 init = (n) => {
     for (i = 0; i < n; i++) {
-        rectangles.push(new Square(
+        general.rectangles.push(new Square(
         {x: random(60, 400), y: random(60, 400)}, 
         {x: random(1, 5), y: random(1, 5)},
         {w: 50, h: 25}));
     }
 }
-drawTotalBounce = () => {
-    textAlign(CENTER, TOP);
-    fill(255, 255, 255);
-    text(`Total bounces: ${totalBounce}`, 0, 12, width);
+
+// Control cursor
+Cursor = {
+    radius: 200,
+    drawCircle: () => {
+        noStroke();
+        fill('rgba(255,255,255, 0.10)');
+        circle(mouseX, mouseY, Cursor.radius);
+    },
+    repulsive: (rectangle) => {
+        if (dist(rectangle.x, rectangle.y, mouseX, mouseY) < Cursor.radius) {
+            rectangle.x += rectangle.velocity.x * 5;
+            rectangle.y += rectangle.velocity.y * 5;
+        }
+    }
 }
-runSquares = (rectangleArray) => {
-    rectangleArray.forEach(rectangle => {
-        rectangle.update();
-        rectangle.hitWall();
-        rectangle.connectRectangle(rectangleArray);
-        rectangle.draw();
-        drawTotalBounce();
-    });
+
+// Control rectangles
+Rectangle = {
+    drawTotalBounce: () => {
+        textAlign(CENTER, TOP);
+        fill(255, 255, 255);
+        text(`Total bounces: ${general.totalBounce}`, 0, 12, width);
+    },
+    runSquares: (rectangleArray) => {
+        rectangleArray.forEach(rectangle => {
+            rectangle.update();
+            rectangle.hitWall();
+            Cursor.repulsive(rectangle);
+            rectangle.connectRectangle(rectangleArray);
+            rectangle.draw();
+            Rectangle.drawTotalBounce();
+        });
+    }
 }
 
 draw = () => {
     background(0);
-    runSquares(rectangles);
+    Rectangle.runSquares(general.rectangles);
+    Cursor.drawCircle();
 }
