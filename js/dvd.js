@@ -4,15 +4,12 @@ let rectangles = [];
 let DVDImage;
 let totalBounce = 0;
 
-// Create rgba function
-
 preload = () => {
     DVDImage = loadImage("./img/dvd.png")
 }
-
 setup = () => {
     createCanvas(width, height);
-    textSize(12);
+    textSize(20);
     init(50);
 }
 
@@ -35,58 +32,57 @@ class Square {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
     }
-  
     is_hit() {
         return ((this.y <= 0 || this.y + this.h >= height) ||
             (this.x <= 0 || this.x + this.w >= width));
     }
-
     hit(hitted) {
         if (hitted) {
             this.bounceCount++;
             totalBounce++;
         }
     }
-
     hitWall() {
         if (this.y <= 0 || this.y + this.h >= height) this.velocity.y *= -1;
         if (this.x <= 0 || this.x + this.w >= width) this.velocity.x *= -1;
     }
-
     draw() {
         this.hit(this.is_hit());
         image(DVDImage, this.x, this.y);
         fill(this.color.r, this.color.g, this.color.b);
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
     }
-}
-
-randRange = (start, end) => {
-    return Math.floor((Math.random() * 100000)) % (end - (start - 1)) + start
+    connectRectangle(rectangleArray) {
+        rectangleArray.forEach(rectangle => {
+        if (dist(this.x, this.y, rectangle.x, rectangle.y) < 250) {
+            stroke('rgba(255, 255, 255, 0.25)');
+            line(this.x, this.y, rectangle.x, rectangle.y);
+        }
+        })
+    }
 }
 
 init = (n) => {
     for (i = 0; i < n; i++) {
         rectangles.push(new Square(
-        {x: randRange(60, 400), y: randRange(60, 400)}, 
-        {x: randRange(1, 5), y: randRange(1, 5)},
+        {x: random(60, 400), y: random(60, 400)}, 
+        {x: random(1, 5), y: random(1, 5)},
         {w: 50, h: 25}));
     }
 }
-
 drawTotalBounce = () => {
     textAlign(CENTER, TOP);
     fill(255, 255, 255);
     text(`Total bounces: ${totalBounce}`, 0, 12, width);
 }
-
 runSquares = (rectangleArray) => {
-    for (var rectangle of rectangleArray) {
+    rectangleArray.forEach(rectangle => {
         rectangle.update();
         rectangle.hitWall();
+        rectangle.connectRectangle(rectangleArray);
         rectangle.draw();
         drawTotalBounce();
-    }
+    });
 }
 
 draw = () => {
