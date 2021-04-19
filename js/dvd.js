@@ -13,7 +13,7 @@ preload = () => {
 setup = () => {
     createCanvas(width, height);
     textSize(12);
-    init(100);
+    init(50);
 }
 
 class Square {
@@ -24,6 +24,11 @@ class Square {
         this.h = Dim.h
         this.velocity = Velocity;
         this.bounceCount = 0;
+        this.color = {
+            r: random(256), 
+            g: random(256), 
+            b: random(256)
+        }
     }
 
     update() {
@@ -38,7 +43,6 @@ class Square {
 
     hit(hitted) {
         if (hitted) {
-            //tint(random(256), random(256), random(256));
             this.bounceCount++;
             totalBounce++;
         }
@@ -52,8 +56,8 @@ class Square {
     draw() {
         this.hit(this.is_hit());
         image(DVDImage, this.x, this.y);
+        fill(this.color.r, this.color.g, this.color.b);
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
-        fill(255, 255, 255);
     }
 }
 
@@ -64,15 +68,16 @@ randRange = (start, end) => {
 init = (n) => {
     for (i = 0; i < n; i++) {
         rectangles.push(new Square(
-        {x: randRange(60, 400), y: randRange(60, 400)}, {x: randRange(1, 5), y: randRange(1, 5)},
+        {x: randRange(60, 400), y: randRange(60, 400)}, 
+        {x: randRange(1, 5), y: randRange(1, 5)},
         {w: 50, h: 25}));
     }
 }
 
 drawTotalBounce = () => {
     textAlign(CENTER, TOP);
-    text(`Total bounces: ${totalBounce}`, 0, 12, width);
     fill(255, 255, 255);
+    text(`Total bounces: ${totalBounce}`, 0, 12, width);
 }
 
 runSquares = (rectangleArray) => {
