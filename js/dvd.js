@@ -25,7 +25,7 @@ class Square{
         this.h = Dim.h
         this.velocity = Velocity;
         this.bounceCount = 0;
-        this.color = {r: random(256), g: random(256), b: random(256)}
+        this.color = {r: 0, g: 0, b: 0}
     }
 
     update() {
@@ -59,7 +59,7 @@ class Square{
             stroke("rgba(255, 255, 255, 0.20)");
             line(this.x, this.y, rectangle.x, rectangle.y);
         }
-        })
+    });
     }
 }
 
@@ -72,12 +72,14 @@ init = (n) => {
     }
 }
 
+
 // Control cursor
 Cursor = {
-    radius: 200,
+    radius: 300,
+    color: {r: 255, g: 255, b: 255},
     drawCircle: () => {
         noStroke();
-        fill("rgba(255,255,255, 0.10)");
+        fill(`rgba(${Cursor.color.r},${Cursor.color.g},${Cursor.color.b}, 0.25)`);
         circle(mouseX, mouseY, Cursor.radius);
     },
     repulsive: (rectangle) => {
@@ -88,6 +90,16 @@ Cursor = {
                 rectangle.y = pos.y;
             }
         }
+    },
+    changeColor: (color) => {
+        color.r = Math.floor(random(256));
+        color.g = Math.floor(random(256));
+        color.b = Math.floor(random(256));
+    },
+    pressed: (rectangle) => {
+        if (!mouseIsPressed) return;
+        Cursor.repulsive(rectangle);
+        Cursor.changeColor(Cursor.color);
     }
 }
 
@@ -95,13 +107,13 @@ Cursor = {
 Rectangle = {
     drawTotalBounce: () => {
         textAlign(CENTER, TOP);
-        fill(255, 255, 255);
-        text(`Total bounces: ${general.totalBounce}`, 0, 12, width);
+        fill("rgba(255, 255, 255, 0.40)");
+        text(`${general.totalBounce}`, 0, 25, width);
     },
     runSquares: (rectangleArray) => {
         rectangleArray.forEach(rectangle => {
             rectangle.update();
-            Cursor.repulsive(rectangle);
+            Cursor.pressed(rectangle);
             rectangle.hitWall();
             rectangle.connectRectangle(rectangleArray);
             rectangle.draw();
