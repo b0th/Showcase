@@ -17,10 +17,19 @@ canvas {
   transform: translate(-50%, -50%);
 }
 
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  height: 650px;
+}
+
 #a-box {
   position: relative;
   width: 375px;
   height: 481px;
+  align-self: center;
   
   background: #56B4E9;
   box-shadow: 0px 11px 0px #438DB7;

@@ -44,7 +44,6 @@ class Square{
         if (hitted) {
             this.bounceCount++;
             general.totalBounce++;
-            //this.color = {r: random(256), g: random(256), b: random(256)}
         }
     }
     hitWall() {
@@ -55,7 +54,7 @@ class Square{
         this.hit(this.is_hit(this.x, this.y));
         tint("rgba(69, 150, 160, 0.40)"); 
         image(general.logoImg, this.x, this.y);
-        fill(this.color.r, this.color.g, this.color.b);
+        fill("rgba(0, 0, 0, 0.50)");
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
     }
     connectRectangle(rectangleArray) {
