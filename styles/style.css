@@ -1,8 +1,28 @@
 html, body {
     margin: 0;
-    padding: 0;
-  }
-  canvas {
-    display: block;
-  }
+  padding: 0;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#a-box {
+  position: relative;
+  width: 375px;
+  height: 481px;
   
+  background: #56B4E9;
+  box-shadow: 0px 11px 0px #438DB7;
+  border-radius: 20px;
+}

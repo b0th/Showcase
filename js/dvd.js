@@ -11,10 +11,14 @@ let general = new Global();
 
 setup = () => {
     noCursor()
-    general.DVDImage = loadImage("./img/dvd.png");
+    general.logoImg = loadImage("./img/logo.png");
     createCanvas(general.width, general.height);
     textSize(20);
     init(50);
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
 }
 
 class Square{
@@ -40,7 +44,7 @@ class Square{
         if (hitted) {
             this.bounceCount++;
             general.totalBounce++;
-            this.color = {r: random(256), g: random(256), b: random(256)}
+            //this.color = {r: random(256), g: random(256), b: random(256)}
         }
     }
     hitWall() {
@@ -49,14 +53,15 @@ class Square{
     }
     draw() {
         this.hit(this.is_hit(this.x, this.y));
-        image(general.DVDImage, this.x, this.y);
+        tint("rgba(69, 150, 160, 0.40)"); 
+        image(general.logoImg, this.x, this.y);
         fill(this.color.r, this.color.g, this.color.b);
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
     }
     connectRectangle(rectangleArray) {
         rectangleArray.forEach(rectangle => {
         if (dist(this.x, this.y, rectangle.x, rectangle.y) < 250) {
-            stroke("rgba(255, 255, 255, 0.20)");
+            stroke("rgba(69, 127, 160, 0.20)");
             line(this.x, this.y, rectangle.x, rectangle.y);
         }
     });
@@ -68,10 +73,9 @@ init = (n) => {
         general.rectangles.push(new Square(
         {x: random(60, 400), y: random(60, 400)}, 
         {x: random(1, 5), y: random(1, 5)},
-        {w: 50, h: 25}));
+        {w: 50, h: 50}));
     }
 }
-
 
 // Control cursor
 Cursor = {
@@ -99,8 +103,11 @@ Cursor = {
     pressed: (rectangle) => {
         if (!mouseIsPressed) return;
         Cursor.repulsive(rectangle);
-        Cursor.changeColor(Cursor.color);
     }
+}
+
+mouseClicked = () => {
+    Cursor.changeColor(Cursor.color);
 }
 
 // Control rectangles
@@ -117,13 +124,13 @@ Rectangle = {
             rectangle.hitWall();
             rectangle.connectRectangle(rectangleArray);
             rectangle.draw();
-            Rectangle.drawTotalBounce();
+            //Rectangle.drawTotalBounce();
         });
     }
 }
 
 draw = () => {
-    background(0);
+    background("#2D4959");
     Rectangle.runSquares(general.rectangles);
     Cursor.drawCircle();
 }
