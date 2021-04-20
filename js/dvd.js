@@ -86,7 +86,7 @@ Cursor = {
         circle(mouseX, mouseY, Cursor.radius);
     },
     repulsive: (rectangle) => {
-        if (dist(rectangle.x, rectangle.y, mouseX, mouseY) < Cursor.radius) {
+        if (dist(mouseX, mouseY, rectangle.x, rectangle.y) < 200) {
             pos = createVector(rectangle.x + rectangle.velocity.x * 5, rectangle.y + rectangle.velocity.y * 5);
             if (!rectangle.is_hit(pos.x, pos.y)) {
                 rectangle.x = pos.x;

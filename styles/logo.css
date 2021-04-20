@@ -1,19 +1,19 @@
 #logo-text-box {
     position: relative;
-    width: 450px;
+    width: 415px;
     height: 180px;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
   }
   
 #logo {
     position: relative;
+
     height: auto; 
     width: auto; 
-    max-width: 218px; 
-    max-height: 218px;
-    align-self: center;
+    max-width: 175px; 
+    max-height: 175px;
 
     filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25));
 }
@@ -27,8 +27,6 @@
     font-style: normal;
     font-weight: 500;
     font-size: 96px;
-    line-height: 131px;
-    align-self: center;
 
     background: linear-gradient(#16FDA0 0%, #077EFB 100%);
       color:transparent;
