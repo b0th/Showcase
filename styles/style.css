@@ -1,6 +1,10 @@
 html, body {
-    margin: 0;
+  margin: 0;
   padding: 0;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600;
+  color: #EFF9FF;
 }
 
 canvas {
@@ -21,6 +25,7 @@ canvas {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: 3px;
   width: 450px;
   height: 675px;
 }
@@ -29,7 +34,7 @@ canvas {
   position: relative;
   align-self: center;
   width: auto;
-  height: 125px;
+  height: 200px;
 
   display: flex;
   flex-flow: row wrap;
@@ -40,12 +45,49 @@ canvas {
   margin: 6px;
 }
 
+#b-box {
+  position: relative;
+  align-self: center;
+  width: auto;
+  height: 100px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+#b-block {
+  position: relative;  
+
+  max-height: 60px;
+  color: #4796C2;
+  background-color: #56B4E9;
+  box-shadow: 0px 6px 0px #438DB7;
+  border-radius: 10px;
+  background-clip: padding-box;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding: 6px;
+}
+
+#b-box > * {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.category {
+  background: linear-gradient(#16FDA0 0%, #077EFB 100%);
+  border-radius: 11px;
+  min-width: 150px;
+  max-height: 45px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
 #langage {
   position: relative;
-
-  font-family: Raleway;
-  font-style: normal;
-  font-weight: 600;
   font-size: 25px;
   
   padding: 10px;
@@ -55,4 +97,11 @@ canvas {
   box-shadow: 0px 6px 0px #438DB7;
   border-radius: 10px;
   background-clip: padding-box;
+}
+
+h2 {
+  position: relative;
+
+  line-height: 42px;
+  font-size: 28px;
 }

@@ -11,10 +11,10 @@ Cursor = {
     repulsive: (rectangle) => {
         if (!Cursor.is_InCircle(rectangle)) return;
         rectangle.time = Date.now();
-        pos = createVector(rectangle.x + rectangle.velocity.x * 5, rectangle.y + rectangle.velocity.y * 5);
+        pos = createVector(rectangle.x + rectangle.velocity.x * 10, rectangle.y + rectangle.velocity.y * 10);
             if (!rectangle.is_hit(pos.x, pos.y)) {
-                rectangle.x = pos.x;
-                rectangle.y = pos.y;
+                rectangle.x = pos.x - rectangle.velocity.x * 5;
+                rectangle.y = pos.y - rectangle.velocity.y * 5;
             }
     },
     startTimer: (rectangle) => {
@@ -25,7 +25,7 @@ Cursor = {
     },
     changeColor: (rectangle) => {
         rectangle.img = general.logoImg;
-        if (Date.now() - rectangle.time < (1 * 1000))
+        if (Date.now() - rectangle.time < (150))
             rectangle.img = general.hitlogoImg;
     },
     pressed: (rectangle) => {
