@@ -6,10 +6,8 @@ class Rectangle{
         this.h = Dim.h
         this.velocity = Velocity;
         this.bounceCount = 0;
-        this.color = "rgba(69, 150, 160, 0.40)";
-        this.currentColor = "rgba(69, 150, 160, 0.40)";
-        this.hitColor = "rgba(22, 253, 161, 0.45)";
         this.time = 0;
+        this.img = general.logoImg;
     }
 
     update() {
@@ -32,8 +30,7 @@ class Rectangle{
     }
     draw() {
         this.hit(this.is_hit(this.x, this.y));
-        tint(this.currentColor); 
-        image(general.logoImg, this.x, this.y);
+        image(this.img, this.x, this.y);
         fill("rgba(0, 0, 0, 0.40)");
         text(`${this.bounceCount}`, this.x + 20, this.y - 17);
     }

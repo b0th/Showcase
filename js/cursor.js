@@ -20,13 +20,13 @@ Cursor = {
     startTimer: (rectangle) => {
         if (!Cursor.is_InCircle(rectangle)) return;
         rectangle.time = Date.now();
-        rectangle.currentColor = rectangle.hitColor;
+        rectangle.img = general.hitlogoImg;
         
     },
     changeColor: (rectangle) => {
-        rectangle.currentColor = rectangle.color;
-        if (Date.now() - rectangle.time < (2 * 1000))
-            rectangle.currentColor = rectangle.hitColor;
+        rectangle.img = general.logoImg;
+        if (Date.now() - rectangle.time < (1 * 1000))
+            rectangle.img = general.hitlogoImg;
     },
     pressed: (rectangle) => {
         if (!mouseIsPressed) return;
