@@ -1,4 +1,4 @@
-# 📀 DVD
+# 📀 Showcase
 
 ### How to install dependencies ?
 
