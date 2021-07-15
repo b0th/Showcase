@@ -22,7 +22,7 @@ docker run -it -p 8080:80 -d server
 ##### Bind mount
 
 ```
-docker run -it  -p 8080:80 -d --name server -v $PWD:/usr/share/nginx/html nginx
+docker run -it -p 8080:80 -d --name server -v $PWD:/usr/share/nginx/html nginx
 ```
 
 Then visit `localhost:8080`
