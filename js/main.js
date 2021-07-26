@@ -42,6 +42,11 @@ class Button {
     is_InCircle () {
         return dist(mouseX, mouseY, this.x, this.y) < Cursor.radius / 2;
     }
+
+    /*
+        Future things to do
+            > Click release + cooldown after click
+    */
     onClick () {
         if (!this.is_InCircle() || !mouseIsPressed) return;
         this.onClickCallback();
