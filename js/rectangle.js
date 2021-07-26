@@ -1,5 +1,6 @@
-class Rectangle{
-    constructor(Location, Velocity, Dim) {
+class Rectangle {
+    constructor(Location, Velocity, Dim, 
+        ImgObject=general.logoImg, Special=undefined) {
         this.x = Location.x;
         this.y = Location.y;
         this.w = Dim.w;
@@ -7,7 +8,9 @@ class Rectangle{
         this.velocity = Velocity;
         this.bounceCount = 0;
         this.time = 0;
-        this.img = general.logoImg;
+        this.original = ImgObject;
+        this.img = ImgObject;
+        this.special = Special;
     }
 
     update() {
@@ -16,7 +19,7 @@ class Rectangle{
     }
     is_hit(x, y) {
         return ((y <= 0 || y + this.h >= general.height) ||
-            (x <= 0 || x + this.w >= general.width));
+        (x <= 0 || x + this.w >= general.width));
     }
     hit(hitted) {
         if (hitted) {
@@ -36,10 +39,25 @@ class Rectangle{
     }
     connectRectangle(rectangleArray) {
         rectangleArray.forEach(rectangle => {
-        if (dist(this.x, this.y, rectangle.x, rectangle.y) < 250) {
-            stroke("rgba(69, 127, 160, 0.20)");
-            line(this.x, this.y, rectangle.x, rectangle.y);
-        }
-    });
+            if (dist(this.x, this.y, rectangle.x, rectangle.y) < 250) {
+                stroke("rgba(69, 127, 160, 0.20)");
+                line(this.x, this.y, rectangle.x, rectangle.y);
+            }
+        });
+    }
+}
+
+RectangleSpecial = {
+    Reset: {
+        callback: () => general.rectangles.forEach(rectangle => {
+            rectangle.bounceCount = 0;
+        })
+    },
+    boostHit: {
+        callback: () => general.rectangles.forEach(rectangle => {
+            Cursor.startTimer(rectangle, true);
+            Cursor.repulsive(rectangle, true);
+            rectangle.bounceCount++
+        })
     }
 }

@@ -106,3 +106,9 @@ h2 {
   line-height: 42px;
   font-size: 28px;
 }
+
+.public-github-repo-text {
+  position: relative;
+  align-self: center;
+  padding: 5px;
+}

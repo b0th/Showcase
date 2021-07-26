@@ -4,21 +4,17 @@ class MyGithubChart {
         this.github.parseLastCommits(5);
         this.ctx = document.getElementById(ChartName).getContext("2d");
         this.chart = new Chart(this.ctx, Config);
-        
     }
-
     setTitle (title) {
         this.chart.options.plugins.title = title;
         this.chart.update();
     }
-
     setLabel (Yaxis, labelName) {
         this.chart.data.datasets.forEach(label => {
             if (label.label == labelName)
                 label.data.push(Yaxis);
         });
     }
-
     setLabels (xAxis, Yaxis, labelName) {
         this.github.repos.forEach(element => {
             this.chart.data.labels.push(element[xAxis])
@@ -35,7 +31,7 @@ const Data = {
         label: 'Stars',
         data: [],
         borderColor: "rgba(255,255,255,0.5)",
-        backgroundColor: "rgba(255,255,255,0.05)"
+        backgroundColor: "rgba(255,255,255,0.1)"
     }]
 }
 
@@ -69,7 +65,7 @@ const Config = {
 }
 
 // Change default font color
-Chart.defaults.global.defaultFontColor = "#5990af";
+Chart.defaults.global.defaultFontColor = "#f4f4f4";
 
 // New chart object
 var chart = new MyGithubChart("b0th", "myChart", Config);
