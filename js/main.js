@@ -10,9 +10,7 @@ class Global {
 
 let general = new Global();
 
-randRange = (min, max) => { 
-    return Math.floor(Math.random() * (max - min) + min);
-} 
+randRange = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 setup = () => {
     noCursor()
@@ -38,17 +36,15 @@ class Button {
         this.img = Img;
         this.onClickCallback = Callback;
         this.clicked = false;
+        this.cooldown = Date.now();
     }
     is_InCircle () {
         return dist(mouseX, mouseY, this.x, this.y) < Cursor.radius / 2;
     }
-
-    /*
-        Future things to do
-            > Click release + cooldown after click
-    */
     onClick () {
         if (!this.is_InCircle() || !mouseIsPressed) return;
+        if (Date.now() - this.cooldown < 100) return;
+        this.cooldown = Date.now();
         this.onClickCallback();
         this.clicked ^= true;
     }
