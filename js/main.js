@@ -52,7 +52,7 @@ init = (n) => {
         document.getElementById("toggle-hide").hidden ^= 1;
     });
     general.buttons.addButton("pi", {x: 20, y: 110}, general.pi, () => {
-        window.location.href = "/pi.html";
+        window.location.href = "/Showcase/pi.html";
     });
 }
 

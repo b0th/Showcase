@@ -21,9 +21,9 @@ setup = () => {
 
     // Buttons
     general.buttons.addButton("back-to-index", {x: 20, y: 20}, general.back, () => {
-        window.location.href = "/";
+        window.location.href = "/Showcase";
     });
-    general.buttons.addButton("back-to-index", {x: 20, y: 110}, general.hideDigit, () => {
+    general.buttons.addButton("show-digits", {x: 20, y: 110}, general.hideDigit, () => {
         general.piRepr.showDigits ^= true;
     });
 }
