@@ -29,12 +29,6 @@ Then visit `localhost:8080`
 
 ### TODO
 ```
-    [Buttons]
-        > Button that redirect to the double pendulum
-            > Back button
-
-    [Pendulum]
-        > Double pendulum
-            > Multiple pendulums (n)
-            > Trace
+    [Nothing]
+        > For the moment
 ```

@@ -71,6 +71,6 @@ runRectangles = (rectangleArray) => {
 draw = () => {
     background("#2D4959");
     runRectangles(general.rectangles);
-    general.buttons.funcForLopp();
     Cursor.drawCircle();
+    general.buttons.funcForLopp();
 }

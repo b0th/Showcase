@@ -9,10 +9,13 @@ class Buttons {
 
     funcForLopp () {
         this.array.forEach(button => {
-            button.onClick();
+            button.onClick(100);
             button.draw();
         });
     }
+}
+
+mouseReleased = (callback) => {
 }
 
 class Button {
@@ -24,16 +27,19 @@ class Button {
         this.onClickCallback = Callback;
         this.cooldown = Date.now();
     }
+
     isCursorOn () {
         return (mouseX >= this.x && mouseX <= this.x + this.img.width)
         && (mouseY >= this.y && mouseY <= this.y + this.img.height);
     }
-    onClick () {
+
+    onClick (cooldown) {
         if (!this.isCursorOn() || !mouseIsPressed) return;
-        if (Date.now() - this.cooldown < 20) return;
+        if (Date.now() - this.cooldown < cooldown) return;
         this.cooldown = Date.now();
         this.onClickCallback();
     }
+
     draw () {
         image(this.img, this.x, this.y);
     }

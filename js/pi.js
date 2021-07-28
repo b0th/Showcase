@@ -2,8 +2,8 @@ class Global {
     constructor() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.square = []
         this.buttons = new Buttons();
+        this.piRepr;
         this.pi;
     }
 }
@@ -13,13 +13,18 @@ let general = new Global();
 setup = () => {
     //noCursor()
     createCanvas(general.width, general.height);
-    textSize(20);
     general.back = loadImage("./img/back.png");
-    general.square = _init(PiSquare, {w: 10, h: 10});
+    general.hideDigit = loadImage("./img/hide.png");
+    general.piRepr = new PiElements(PiSquare, {w: 20, h: 20});
+    general.piRepr.init_();
+    textSize(general.piRepr.elementSize.w / 2);
 
     // Buttons
     general.buttons.addButton("back-to-index", {x: 20, y: 20}, general.back, () => {
         window.location.href = "/";
+    });
+    general.buttons.addButton("back-to-index", {x: 20, y: 110}, general.hideDigit, () => {
+        general.piRepr.showDigits ^= true;
     });
 }
 
@@ -36,21 +41,60 @@ getPi = (digits) => {
     return pi / (10n ** 20n);
 }
 
-colorPalette = [
-    "#80ffdb64", "#72efdd64", 
-    "#64dfdf64", "#56cfe164", 
-    "#48bfe364", "#4ea8de64", 
-    "#5390d964", "#5e60ce64", 
-    "#6930c364", "#7400b864"
-]
+class PiElements {
+    constructor(Class, ElementSize) {
+        this.colorPalette = [
+            "#80ffdb64", "#72efdd64", 
+            "#64dfdf64", "#56cfe164", 
+            "#48bfe364", "#4ea8de64", 
+            "#5390d964", "#5e60ce64", 
+            "#6930c364", "#7400b864"
+        ];
+        this.class = Class;
+        this.elementSize = ElementSize;
+        this.array = [];
+        this.showDigits = false;
+    }
+    
+    init_ () {
+        let n = PiElement.howMany(this.elementSize.w, this.elementSize.h, general.width, general.height);
+        let x = 0;
+        let y = 0;
+
+        general.pi = getPi(Math.round(n)).toString();
+        for (let i = 0; i < n; i++) {
+            this.addElement(x, y, general.pi[i])
+            x += this.elementSize.w;
+            if (x + this.elementSize.w > general.width) {
+                x = 0; y += this.elementSize.h;
+            }
+        }
+    }
+
+    addElement (x, y, digit) {
+        this.array.push(new this.class(
+            {x: x, y: y}, 
+            {w: this.elementSize.w, h: this.elementSize.h}, 
+            digit, color(this.colorPalette[digit])
+        ));
+    }
+
+    funcForLopp () {
+        for (let i = 0; i < this.array.length; i++) {
+            this.array[i].draw();
+            if (this.showDigits)
+                this.array[i].drawDigit();
+        }
+    }
+}
 
 class PiElement {
-    constructor(Location, Size, Digit) {
+    constructor(Location, Size, Digit, Color) {
         this.x = Location.x;
         this.y = Location.y;
         this.size = Size
         this.digit = Digit;
-        this.color = colorPalette[Digit];
+        this.color = Color;
     }
 
     static howManyOnX (w, maxX) { return Math.floor(maxX / w)}
@@ -64,6 +108,11 @@ class PiElement {
                 (this.y + this.h > maxY)    ||
                 (this.x < 0)                ||
                 (this.y < 0);
+    }
+
+    drawDigit () {
+        fill("rgba(0, 0, 0, 0.70)");
+        text(`${this.digit}`, this.x, this.y + this.size.h);
     }
 }
 
@@ -83,33 +132,8 @@ class PiCircle extends PiElement {
     }
 }
 
-_init = (Class, size) => {
-    let n = PiElement.howMany(size.w, size.h, general.width, general.height);
-    let x = 0;
-    let y = 0;
-    var ret = []
-
-    general.pi = getPi(Math.round(n)).toString();
-    for (let i = 0; i < n; i++) {
-        ret.push(new Class({x: x, y: y}, {w: size.w, h: size.h}, Number(general.pi[i])));
-        x += size.w;
-        if (x + size.w > general.width) {
-            x = 0; y += size.h;
-        }
-    };
-    return ret;
-}
-
-Main = {
-    runPiSquare : (squareArray) => {
-        for (let i = 0; i < squareArray.length; i++) {
-            squareArray[i].draw();
-        }
-    }
-}
-
 draw = () => {
     background("#2D4959");
-    Main.runPiSquare(general.square);
+    general.piRepr.funcForLopp();
     general.buttons.funcForLopp()
 }
