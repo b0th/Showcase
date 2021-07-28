@@ -37,9 +37,4 @@ Then visit `localhost:8080`
         > Double pendulum
             > Multiple pendulums (n)
             > Trace
-
-    [Pi]
-        > Pi representation (x first digits)
-            > color square for each digit
-        > Pop-up with Pi logo + color palette
 ```
