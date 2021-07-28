@@ -14,7 +14,7 @@ setup = () => {
     //noCursor()
     createCanvas(general.width, general.height);
     general.back = loadImage("./img/back.png");
-    general.hideDigit = loadImage("./img/hide.png");
+    general.hideDigit = loadImage("./img/show.png");
     general.piRepr = new PiElements(PiSquare, {w: 20, h: 20});
     general.piRepr.init_();
     textSize(general.piRepr.elementSize.w / 2);
