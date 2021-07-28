@@ -13,6 +13,12 @@ class Buttons {
             button.draw();
         });
     }
+
+    hideButtons () {
+        this.array.forEach(button => {
+            button.hidden ^= true;
+        });
+    }
 }
 
 mouseReleased = (callback) => {
@@ -26,6 +32,7 @@ class Button {
         this.img = Img;
         this.onClickCallback = Callback;
         this.cooldown = Date.now();
+        this.hidden = false;
     }
 
     isCursorOn () {
@@ -34,13 +41,14 @@ class Button {
     }
 
     onClick (cooldown) {
-        if (!this.isCursorOn() || !mouseIsPressed) return;
+        if (!this.isCursorOn() || !mouseIsPressed || this.hidden) return;
         if (Date.now() - this.cooldown < cooldown) return;
         this.cooldown = Date.now();
         this.onClickCallback();
     }
 
     draw () {
+        if (this.hidden) return;
         image(this.img, this.x, this.y);
     }
 }

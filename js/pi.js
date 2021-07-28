@@ -135,5 +135,5 @@ class PiCircle extends PiElement {
 draw = () => {
     background("#2D4959");
     general.piRepr.funcForLopp();
-    general.buttons.funcForLopp()
+    general.buttons.funcForLopp();
 }
