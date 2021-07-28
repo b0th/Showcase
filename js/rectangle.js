@@ -24,7 +24,6 @@ class Rectangle {
     hit(hitted) {
         if (hitted) {
             this.bounceCount++;
-            general.totalBounce++;
         }
     }
     hitWall() {

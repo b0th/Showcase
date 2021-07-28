@@ -3,15 +3,36 @@
   <style>
     body {
       background-color: #2D4959;
+      overflow: hidden;
     }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .pi-center {
+      position: fixed;
+      top: 40%;
+      left: 43%;
+      transform: translate(-50%, -50%);
+  }
   </style>
 
   <head>
+    <link rel="stylesheet" type="text/css" href="./styles/logo.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
+    <script src="./js/button.js"></script>
     <script src="./js/pi.js"></script>
   </head>
 
   <body>
+    <div style="animation: float 10s ease-in-out infinite;" class="pi-center">
+      <img src="./img/pi_gradient.png"
+      style="width: 20%; filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.70));">
+    </div>
   <body/>
 
 </html>

@@ -3,17 +3,13 @@ class Global {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         this.rectangles = [];
-        this.buttons = [];
-        this.totalBounce = 0;
     }
 }
 
 let general = new Global();
 
-randRange = (min, max) => Math.floor(Math.random() * (max - min) + min);
-
 setup = () => {
-    noCursor()
+    //noCursor()
     /*
         Initializing multiple imgs because tint() sucks hard...
             > FPS drop (~60 -> ~20)
@@ -23,39 +19,14 @@ setup = () => {
     general.logoReset = loadImage("./img/logo_to_chart.png");
     general.boostHits = loadImage("./img/boost_hits.png");
     general.hide = loadImage("./img/hide.png");
+    general.pi = loadImage("./img/pi_button.png");
+    general.buttons = new Buttons();
     createCanvas(general.width, general.height);
     textSize(20);
     init(50);
 }
 
-class Button {
-    constructor(Id, Location, Img, Callback) {
-        this.id = Id;
-        this.x = Location.x;
-        this.y = Location.y;
-        this.img = Img;
-        this.onClickCallback = Callback;
-        this.clicked = false;
-        this.cooldown = Date.now();
-    }
-    is_InCircle () {
-        return dist(mouseX, mouseY, this.x, this.y) < Cursor.radius / 2;
-    }
-    onClick () {
-        if (!this.is_InCircle() || !mouseIsPressed) return;
-        if (Date.now() - this.cooldown < 100) return;
-        this.cooldown = Date.now();
-        this.onClickCallback();
-        this.clicked ^= true;
-    }
-    draw () {
-        image(this.img, this.x, this.y);
-    }
-}
-
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
-}
+function windowResized() { resizeCanvas(windowWidth, windowHeight) }
 
 getSpecialRectangle = (Img, Callback, w, h) => {
     return new Rectangle(
@@ -77,34 +48,29 @@ init = (n) => {
     general.rectangles.push(getSpecialRectangle(general.boostHits, RectangleSpecial.boostHit, 70, 70));
 
     // Buttons
-    general.buttons.push(new Button("hide-panel", {x: 20, y: 20}, general.hide, () => {
-        document.getElementById("toggle-hide").hidden ^= 1
-    }));
+    general.buttons.addButton("hide-panel", {x: 20, y: 20}, general.hide, () => {
+        document.getElementById("toggle-hide").hidden ^= 1;
+    });
+    general.buttons.addButton("pi", {x: 20, y: 110}, general.pi, () => {
+        window.location.href = "/pi.html";
+    });
 }
 
-Main = {
-    runRectangles: (rectangleArray) => {
-        rectangleArray.forEach(rectangle => {
-            rectangle.update();
-            Cursor.pressed(rectangle);
-            Cursor.callbackSpecial(rectangle);
-            rectangle.hitWall();
-            rectangle.connectRectangle(rectangleArray);
-            rectangle.draw();
-            Cursor.changeColor(rectangle);
-        });
-    },
-    runButtons: (buttonsArray) => {
-        buttonsArray.forEach(button => {
-            button.onClick();
-            button.draw();
-        });
-    }
+runRectangles = (rectangleArray) => {
+    rectangleArray.forEach(rectangle => {
+        rectangle.update();
+        Cursor.pressed(rectangle);
+        Cursor.callbackSpecial(rectangle);
+        rectangle.hitWall();
+        rectangle.connectRectangle(rectangleArray);
+        rectangle.draw();
+        Cursor.changeColor(rectangle);
+    });
 }
 
 draw = () => {
     background("#2D4959");
-    Main.runRectangles(general.rectangles);
-    Main.runButtons(general.buttons);
+    runRectangles(general.rectangles);
+    general.buttons.funcForLopp();
     Cursor.drawCircle();
 }

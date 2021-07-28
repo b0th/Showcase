@@ -30,14 +30,16 @@ Then visit `localhost:8080`
 ### TODO
 ```
     [Buttons]
-        > Button that redirect to the chart
-            > Back button
         > Button that redirect to the double pendulum
             > Back button
+
+    [Pendulum]
+        > Double pendulum
+            > Multiple pendulums (n)
+            > Trace
 
     [Pi]
         > Pi representation (x first digits)
             > color square for each digit
-        > Pi representation (Adjacents numbers (1-2 distances))
-            > Color palette
+        > Pop-up with Pi logo + color palette
 ```
