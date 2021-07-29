@@ -29,6 +29,8 @@ Then visit `localhost:8080`
 
 ### TODO
 ```
-    [Nothing]
-        > For the moment
+    [to.html]
+        > Emojis
+        > Categories
+        > Fill it
 ```
