@@ -1,4 +1,4 @@
-# 📀 Showcase
+# 🧙🏼‍♂️ Showcase
 
 ### How to install dependencies ?
 
