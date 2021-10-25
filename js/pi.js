@@ -55,7 +55,8 @@ class PiElements {
         this.array = [];
         this.showDigits = false;
     }
-    
+
+
     init_ () {
         let n = PiElement.howMany(this.elementSize.w, this.elementSize.h, general.width, general.height);
         let x = 0;
